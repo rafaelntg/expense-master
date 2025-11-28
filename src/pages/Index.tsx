@@ -4,18 +4,21 @@ import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseList } from '@/components/ExpenseList';
 import { ExpenseFilters } from '@/components/ExpenseFilters';
 import { ExpenseSummary } from '@/components/ExpenseSummary';
+import { ImportExportButtons } from '@/components/ImportExportButtons';
 import { useExpenses } from '@/hooks/useExpenses';
 import { toast } from '@/hooks/use-toast';
 
 const Index = () => {
   const {
     expenses,
+    allExpenses,
     selectedCategory,
     setSelectedCategory,
     selectedMonth,
     setSelectedMonth,
     addExpense,
     deleteExpense,
+    importExpenses,
   } = useExpenses();
 
   const handleAddExpense = (expense: Parameters<typeof addExpense>[0]) => {
@@ -40,14 +43,17 @@ const Index = () => {
       {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg gradient-primary">
-              <Wallet className="h-6 w-6 text-primary-foreground" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg gradient-primary">
+                <Wallet className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-foreground">Controle de Despesas</h1>
+                <p className="text-sm text-muted-foreground">Organize suas finanças</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">Controle de Despesas</h1>
-              <p className="text-sm text-muted-foreground">Organize suas finanças</p>
-            </div>
+            <ImportExportButtons expenses={allExpenses} onImport={importExpenses} />
           </div>
         </div>
       </header>
