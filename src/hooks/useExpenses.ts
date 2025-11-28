@@ -38,6 +38,15 @@ export function useExpenses() {
     setExpenses((prev) => prev.filter((expense) => expense.id !== id));
   };
 
+  const importExpenses = (newExpenses: Omit<Expense, 'id' | 'createdAt'>[]) => {
+    const expensesWithIds: Expense[] = newExpenses.map((expense) => ({
+      ...expense,
+      id: crypto.randomUUID(),
+      createdAt: new Date(),
+    }));
+    setExpenses((prev) => [...expensesWithIds, ...prev]);
+  };
+
   const filteredExpenses = useMemo(() => {
     return expenses.filter((expense) => {
       const matchesCategory = selectedCategory === 'all' || expense.category === selectedCategory;
@@ -55,5 +64,6 @@ export function useExpenses() {
     setSelectedMonth,
     addExpense,
     deleteExpense,
+    importExpenses,
   };
 }
